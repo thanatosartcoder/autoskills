@@ -350,12 +350,12 @@ describe("installSkill", () => {
     ok(result.output.includes("hash mismatch"));
   });
 
-  it("rejects disallowed Archive.zip files before downloading", async () => {
+  it("rejects disallowed .zip files before downloading", async () => {
     const regDir = join(tmp.path, "registry");
     const projectDir = join(tmp.path, "project");
     mkdirSync(projectDir, { recursive: true });
     buildRegistry(regDir, [
-      { name: "archive-skill", source: "owner/repo", files: { "Archive.zip": "zip" } },
+      { name: "archive-skill", source: "owner/repo", files: { "downloads/tool.ZIP": "zip" } },
     ]);
     rmSync(join(regDir, "archive-skill"), { recursive: true, force: true });
     _setRegistryDir(regDir);
