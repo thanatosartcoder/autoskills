@@ -20,7 +20,7 @@ import {
   SHOW_CURSOR,
 } from "./colors.ts";
 import { printBanner, multiSelect, formatTime } from "./ui.ts";
-import { installAll, loadRegistry } from "./installer.ts";
+import { clearAutoskillsCache, installAll, loadRegistry } from "./installer.ts";
 import { cleanupClaudeMd } from "./claude.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -48,6 +48,7 @@ interface CliArgs {
   dryRun: boolean;
   verbose: boolean;
   help: boolean;
+  clearCache: boolean;
   agents: string[];
 }
 
@@ -66,6 +67,7 @@ function parseArgs(): CliArgs {
     dryRun: args.includes("--dry-run"),
     verbose: args.includes("--verbose") || args.includes("-v"),
     help: args.includes("--help") || args.includes("-h"),
+    clearCache: args.includes("--clear-cache"),
     agents,
   };
 }
@@ -78,11 +80,13 @@ function showHelp(): void {
     npx autoskills                   Detect & install skills
     npx autoskills ${dim("-y")}                   Skip confirmation
     npx autoskills ${dim("--dry-run")}            Show what would be installed
+    npx autoskills ${dim("--clear-cache")}        Clear downloaded skills cache
     npx autoskills ${dim("-a cursor claude-code")} Install for specific IDEs only
 
   ${bold("Options:")}
     -y, --yes       Skip confirmation prompt
     --dry-run       Show skills without installing
+    --clear-cache   Clear downloaded skills cache
     -v, --verbose   Show error details on failure
     -a, --agent     Install for specific IDEs only (e.g. cursor, claude-code)
     -h, --help      Show this help message
@@ -362,10 +366,21 @@ async function selectSkills(skills: SkillEntry[], autoYes: boolean): Promise<Ski
 // ── Main ─────────────────────────────────────────────────────
 
 async function main(): Promise<void> {
-  const { autoYes, dryRun, verbose, help, agents } = parseArgs();
+  const { autoYes, dryRun, verbose, help, clearCache, agents } = parseArgs();
 
   if (help) {
     showHelp();
+    process.exit(0);
+  }
+
+  if (clearCache) {
+    const { cacheDir, removed } = clearAutoskillsCache();
+    log(
+      removed
+        ? green(`   ✔ Cleared autoskills cache: ${cacheDir}`)
+        : dim(`   No autoskills cache found: ${cacheDir}`),
+    );
+    log();
     process.exit(0);
   }
 
