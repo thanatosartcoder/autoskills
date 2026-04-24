@@ -16,6 +16,7 @@ import {
   red,
   pink,
   gray,
+  muted,
   SHOW_CURSOR,
 } from "./colors.ts";
 import { printBanner, multiSelect, formatTime } from "./ui.ts";
@@ -149,7 +150,7 @@ function formatSkillLabel(skill: string, { styled = false }: { styled?: boolean 
     return `${author} › ${skillName}`;
   }
 
-  return `${gray(author)} ${gray("›")} ${cyan(bold(skillName))}`;
+  return `${muted(author)} ${gray("›")} ${cyan(bold(skillName))}`;
 }
 
 function printSkillsList(skills: SkillEntry[]): void {
@@ -368,7 +369,7 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
-  printBanner(VERSION);
+  await printBanner(VERSION);
 
   const projectDir = resolve(".");
 
@@ -410,12 +411,7 @@ async function main(): Promise<void> {
 
   const selectedSkills = await selectSkills(skills, autoYes);
 
-  if (!autoYes && process.stdout.isTTY) {
-    write("\x1b[H\x1b[2J\x1b[3J");
-    printBanner(VERSION);
-  } else {
-    log();
-  }
+  log();
 
   log(cyan("   ◆ ") + bold("Installing skills..."));
   log(dim(`   Agents: ${resolvedAgents.join(", ")}`));

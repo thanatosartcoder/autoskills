@@ -202,8 +202,15 @@ const skillsMap = [...SKILLS_MAP].sort((a: any, b: any) => {
         <div class="flex gap-4">
           <span class="text-zinc-600 shrink-0">[3]</span>
           <div>
-            <p class="text-zinc-200">Install skills</p>
-            <p class="text-zinc-500">The best AI agent skills are installed automatically via <span class="text-zinc-400">skills.sh</span>.</p>
+            <p class="text-zinc-200">Use the curated registry</p>
+            <p class="text-zinc-500">Skills are synced, reviewed, and stored in the autoskills registry instead of installed directly from upstream sources.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <span class="text-zinc-600 shrink-0">[4]</span>
+          <div>
+            <p class="text-zinc-200">Verify before writing</p>
+            <p class="text-zinc-500">Only the selected skill files are downloaded, checked against recorded SHA-256 hashes, and written locally.</p>
           </div>
         </div>
       </div>
@@ -245,7 +252,7 @@ const skillsMap = [...SKILLS_MAP].sort((a: any, b: any) => {
     <!-- Supported Technologies & Skills -->
     <div class="mb-12">
       <p class="text-zinc-600 mb-2 uppercase tracking-widest text-xs">Supported technologies & skills</p>
-      <p class="text-zinc-600 mb-6">Each technology auto-installs these skills from <a href="https://skills.sh" target="_blank" rel="noopener" class="text-zinc-400 underline underline-offset-2 decoration-zinc-700 hover:decoration-zinc-400 transition-colors">skills.sh</a>.</p>
+      <p class="text-zinc-600 mb-6">Each technology auto-installs curated skills from the audited autoskills registry. Links open the original skill pages for context.</p>
       <div class="space-y-0">
         {skillsMap.map((tech) => (
           <div class="group border-b border-zinc-800/40 py-2.5 first:border-t">
@@ -519,6 +526,9 @@ const skillsMap = [...SKILLS_MAP].sort((a: any, b: any) => {
 
       // Installing
       d(300, '')
+      d(0, s(C.cy, '   ▸ ') + s(C.wh, 'Verifying curated registry...'))
+      d(200, s(C.gn, '   ✔ ') + s(C.z5, 'manifest and hashes loaded'))
+      d(200, '')
       d(0, s(C.cy, '   ▸ ') + s(C.wh, 'Installing skills...'))
       d(200, '')
       for (const sk of SKILL_LIST) {
