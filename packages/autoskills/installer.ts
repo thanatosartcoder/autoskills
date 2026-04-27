@@ -21,8 +21,7 @@ import { log, write, dim, green, cyan, red, HIDE_CURSOR, SHOW_CURSOR, SPINNER } 
 
 // ── Registry ─────────────────────────────────────────────────
 
-const DEFAULT_REGISTRY_RAW_BASE_URL_PREFIX =
-  "https://raw.githubusercontent.com/midudev/autoskills";
+const DEFAULT_REGISTRY_RAW_BASE_URL_PREFIX = "https://raw.githubusercontent.com/midudev/autoskills";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
 
 export interface RegistryEntry {
