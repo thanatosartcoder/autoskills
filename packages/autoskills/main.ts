@@ -551,7 +551,7 @@ async function main(): Promise<void> {
 
       const selected = await multiSelect(installedList, {
         labelFn: (name) => name,
-        initialSelected: [],
+        initialSelected: Array(installedList.length).fill(false),
         shortcuts: [],
       });
 
